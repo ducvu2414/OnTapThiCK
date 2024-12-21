@@ -24,7 +24,11 @@ public class FlightsServiceImpl implements FlightsSerivce{
 
     @Override
     public Flights saveFlight(Flights flight) {
-        return flightsRepository.save(flight);
+        List<Flights> overlappingFlights = flightsRepository.findOverlappingFlights(flight.getAirplaneName(), flight.getDepartureDate());
+        if (overlappingFlights.isEmpty()) {
+            return flightsRepository.save(flight);
+        }
+        return null;
     }
 
     @Override
